@@ -39,7 +39,7 @@ def output(extractor, directory, outPath):
         keys, values = [], []
         for key, value in personInfo.items():
             keys.append(key)
-            values.append(value)  
+            values.append(value)
         for key, value in result.items():
             keys.append(key)
             values.append(value)
