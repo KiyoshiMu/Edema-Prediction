@@ -20,10 +20,9 @@ def prepare(directory):
     for i in range(1, len(infoJunk.index)):
         content = [str(info) for info in list(infoJunk.iloc[i]) if not pd.isna(info)]
         personInfo[infoJunk.index[i]] = "".join(content)
-    
-    origin = SimpleITK.ReadImage(readPng(os.path.join(directory, "masks")))
-    masks = SimpleITK.ReadImage(readPng(os.path.join(directory, "evaluation")))
-    
+
+    masks = SimpleITK.ReadImage(readPng(os.path.join(directory, "masks")))
+    origin = SimpleITK.ReadImage(readPng(os.path.join(directory, "evaluation")))
     origin.SetSpacing(spacingInfo)
     masks.SetSpacing(spacingInfo)
     origin.SetOrigin(spacingInfo)
@@ -34,8 +33,11 @@ def prepare(directory):
 def output(extractor, directory, outPath):
     if os.path.isdir(directory):
         origin, masks, personInfo = prepare(directory)
-        result = extractor.execute(origin, masks)
-        
+        try:
+            result = extractor.execute(origin, masks)
+        except RuntimeError:
+            print(directory)
+            return
         keys, values = [], []
         for key, value in personInfo.items():
             keys.append(key)

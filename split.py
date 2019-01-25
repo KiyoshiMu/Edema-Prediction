@@ -4,14 +4,18 @@ from os.path import join
 import shutil
 import argparse
 
-def split_one(img_p, mode=1):
+def split_one(img_p, mode=0):
     img = cv2.imread(img_p, mode)
-    _, w = img.shape[:2]
-    middle = round(w/2)
-    return img[:, :middle], img[:, middle:]
+    h, w = img.shape[:2]
+    assert h == 320 and w == 320
+    middle = 160
+    right_img, left_img = img[:, :middle], img[:, middle:]
+#     if mode == 0:
+#         assert len(right_img.shape) == 2
+    return right_img, left_img
 
 def split_id(id_dir, dst):
-    for folder, mode in zip(('masks', 'evaluation'), (0, 1)):
+    for folder in ('masks', 'evaluation'):
         last_dir = join(id_dir, folder)
         id_info = os.path.basename(id_dir)
         right = join(dst, f'{id_info}_right', folder)
@@ -21,12 +25,12 @@ def split_id(id_dir, dst):
 
         xlsx = 'personInfo.xlsx'
         info = join(id_dir, xlsx)
-        shutil.copy(info, join(right, xlsx))
-        shutil.copy(info, join(left, xlsx))
-
+        shutil.copy(info, join(dst, f'{id_info}_right', xlsx))
+        shutil.copy(info, join(dst, f'{id_info}_left', xlsx))
+        
         for f in os.listdir(last_dir):
             img_p = join(last_dir, f)
-            right_img, left_img = split_one(img_p, mode)
+            right_img, left_img = split_one(img_p)
             cv2.imwrite(join(right, f), right_img)
             cv2.imwrite(join(left, f), left_img)
 
@@ -39,7 +43,7 @@ def main(processed_dir, dst):
     # execute
     batch_split(os.path.join(processed_dir, 'Before'), join(dst, 'Before'))
     batch_split(os.path.join(processed_dir, 'After'), join(dst, 'After'))
-    print("IMAGE ANALYSIS COMPLETED\nMERGE RUN")
+    print("IMAGE SPLIT COMPLETED")
 
 # def batch_split(id_dir, dst):
 #     print(dst)

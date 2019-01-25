@@ -5,13 +5,14 @@ import SimpleITK, pydicom
 import pickle
 from collections import defaultdict
 import sys
+import pandas as pd
 
 def load_pickle(pkl_path) -> dict:
     with open(pkl_path, 'rb') as temp:
         container = pickle.load(temp)
     return container
 
-def save_dict(container:dict, name, dst) -> None:
+def save_pickle(container, name, dst) -> None:
     os.makedirs(dst, exist_ok=True)
     with open(join(dst, name+'.pkl'), 'wb+') as saver:
         pickle.dump(container, saver, pickle.HIGHEST_PROTOCOL)
@@ -47,7 +48,7 @@ def arrange(dir_p:str, dst, func=lambda x:x[-4:]=='.dcm') -> None:
             dst_dir = join(dst, dir_name)
             record[dst_dir].append(dcm_p)
             if len(record[dst_dir]) == 1:
-                save_dict(arrange_info, dir_name, dst_dir)
+                save_pickle(arrange_info, dir_name, dst_dir)
 
     for dst_dir, dcm_ps in record:
         for dcm_p in dcm_ps:
@@ -66,8 +67,41 @@ def show_progress(cur_done: int, total: int, status='', bar_length=60):
     sys.stdout.write('[{}] {:.2f}% {}'.format(show, percent*100, status))
     sys.stdout.flush()
 
+def feature_rough_sel(data):
+    bio_info = ("ASM", "Contrast", "Correlation", "Homogeneity", "Entropy", "Variance", "Skewness", "Kurtosis")
+    selected_feature = list(filter_df(data, bio_info))
+    return selected_feature
 
-            
+def clean_df(data, selected_feature=None, key='original_shape_VoxelVolume'):
+    data = data.sort_index()
+    # here the date is also sorted
+    # from the paper [\cite] the following features may have biological meanings
+    if not selected_feature:
+        selected_feature = feature_rough_sel(data)
+    sel_data = data.loc[:, selected_feature]
+    sel_data['id'], _ = zip(*[v.split('Date') for v in sel_data.index.tolist()])
+    before_data = sel_data.iloc[::2, :]
+    after_data = sel_data.iloc[1::2, :]
+    
+    v_before = data.loc[before_data.index, key]
+    v_after = data.loc[after_data.index, key]
+    y = y_creator(v_before, v_after, before_data['id'])
+    x = before_data.set_index('id')
+    print(x.shape)
+    return x, y
+
+def y_creator(v_before, v_after, idxs):
+    ratio = v_after.values / v_before.values
+    y_change = ratio -1
+    y = pd.DataFrame({'volume before':v_before.values, 'volume after':v_after.values, 'effectiveness':y_change<-0.25},
+            index = idxs)
+    return y
+
+def filter_df(data, sel_info):
+    # select realted columns
+    func_filter = lambda x : any([info == x.split('_')[-1] for info in sel_info])
+    columns = filter(func_filter, data.columns.tolist())
+    return columns  
 
         
 
