@@ -8,11 +8,13 @@ Predict the outcome of celebral edema patients from MRI
 
 We used coronal T2-flair Digital Imaging and Communications in Medicine (DICOM) images, which are from 66 patients before and after their first therapy. All images are resized to 320 pixels in row and 320 pixels in column. The Spacings are adjusted by individual specific resizing ratio. For example, after resizing, an image with 640 pixels in row, 640 pixels in column and 0.359 \* 0.359 in Spacing will become an image with 320 pixels in row, 320 pixels in column and 0.718 \* 0.718 in Spacing.
 
-The segmentation for all series of MRI images is completed by OpenCV via the combination of its bilateralFilter, threshold, getStructuringElement, morphologyEx and findContours algorithms. (The codes can be checked in Supplement Material)
+The segmentation for all series of MRI images is completed by OpenCV via the combination of its bilateralFilter, threshold, getStructuringElement, morphologyEx and findContours algorithms. (The codes can be checked in [Supplement Material](\relics))
 
 After automatic segmentation, manual proofreading in every image is done to correct mistakes. Finally, every image in every series has its specific binary mask in a 0.PNG file. The 1 in file means the pixel is in the area of interest i.e. cerebral edema, while the 0 in file is not.
 
-After segmentation, the images and their correspondent masks are plugged into PyRadiomics, a flexible open-source platform capable of extracting a large panel of engineered features from medical images, under its exampleMR_5mm setting. 961 features are created, including features for Statistics, Shape, GLCM, GLRLM and GLSZM.
+![The result of segmentation](\pics\figure1.png)
+
+After segmentation, the images and their correspondent masks are plugged into PyRadiomics, a flexible open-source platform capable of extracting a large panel of engineered features from medical images, under its exampleMR_5mm setting. 961 features are created, including features for Statistics, Shape, GLCM, GLRLM and GLSZM. The detail setting is *MR_5mm.yaml*.
 
 The effect of the therapy is defined by whether the volume of cerebral edema reduce to less than 75% of its previous volume that is before one course of treatment. If cerebral edema’s volume declines to such extent, the therapy is effective; if not, the therapy doesn’t work well.
 
@@ -24,4 +26,8 @@ Besides, our clinical features including physiological information like 'Glu', '
 
 Selected radiomic features with their associated feature group, filter and description are summarize in Table 2. Together these features provide characters of one cerebral edema, like its smoothness, pattern diversity and other texture-like traits.
 
-Finally, the area under the receiver operating characteristics curves (AUCs) for primary Logistic Regression model is 0.569，0.714 and 0.767 for using selected clinical features only, using selected radiomic features only and using both selected clinical features and selected radiomic features, respectively.
+Finally, the area under the receiver operating characteristics curves (AUCs) for primary Logistic Regression model is 0.591，0.727 and 0.775 for using selected clinical features only, using selected radiomic features only and using both selected clinical features and selected radiomic features, respectively.
+
+![result for image](pics/figure2.png "result for image only")
+
+![result for combination](pics/figure3.png "result for combination of image and clinical data")
