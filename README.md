@@ -133,6 +133,7 @@ Figure 6
 ![Figure 6](pics/figure6.png)
 
 Table 3
+
 |Features in Same Outcome Group|   Pearson correlation coefficient |     p-value |
 |:--------------------------------|----------------------------------:|------------:|
 | wavelet-LHL_firstorder_Variance |                         0.898986  | 2.92383e-05 |
