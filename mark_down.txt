@@ -1,0 +1,31 @@
+|                                 |   statistic |     pvalue |
+|:--------------------------------|------------:|-----------:|
+| wavelet-LHL_firstorder_Variance |    -2.74287 | 0.00789041 |
+| wavelet-LHL_firstorder_Entropy  |    -2.37801 | 0.0204036  |
+| wavelet-LHL_glcm_Contrast       |    -2.21694 | 0.030187   |
+| wavelet-LHL_firstorder_Skewness |    -2.17202 | 0.033566   |
+| wavelet-LHH_glcm_Correlation    |     1.99347 | 0.0504758  |
+| original_firstorder_Kurtosis    |     1.87788 | 0.0649546  |
+|           |   statistic |   pvalue |
+|:----------|------------:|---------:|
+| LDL       |     1.41234 | 0.162695 |
+| BUN       |    -1.24192 | 0.2188   |
+| PK        |    -1.20383 | 0.233088 |
+| Necktimes |    -1.1783  | 0.243039 |
+| Neckdose  |    -1.1783  | 0.243039 |
+|                                 |   Pearson correlation coefficient |     p-value |
+|:--------------------------------|----------------------------------:|------------:|
+| wavelet-LHL_firstorder_Variance |                         0.898986  | 2.92383e-05 |
+| wavelet-LHL_firstorder_Entropy  |                         0.870631  | 0.000107746 |
+| wavelet-LHL_glcm_Contrast       |                         0.841067  | 0.000314867 |
+| wavelet-LHL_firstorder_Skewness |                         0.0700653 | 0.820076    |
+| wavelet-LHH_glcm_Correlation    |                        -0.0343937 | 0.911185    |
+| original_firstorder_Kurtosis    |                         0.0686227 | 0.823728    |
+|                                 |   Pearson correlation coefficient |   p-value |
+|:--------------------------------|----------------------------------:|----------:|
+| wavelet-LHL_firstorder_Variance |                          0.363959 | 0.375447  |
+| wavelet-LHL_firstorder_Entropy  |                          0.588723 | 0.124684  |
+| wavelet-LHL_glcm_Contrast       |                          0.369895 | 0.367113  |
+| wavelet-LHL_firstorder_Skewness |                         -0.144002 | 0.733706  |
+| wavelet-LHH_glcm_Correlation    |                         -0.251074 | 0.548646  |
+| original_firstorder_Kurtosis    |                          0.851649 | 0.0072811 |

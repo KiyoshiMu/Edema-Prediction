@@ -6,6 +6,7 @@ import pickle
 from collections import defaultdict
 import sys
 import pandas as pd
+from tabulate import tabulate
 
 def load_pickle(pkl_path) -> dict:
     with open(pkl_path, 'rb') as temp:
@@ -66,7 +67,7 @@ def show_progress(cur_done: int, total: int, status='', bar_length=60):
     show = '=' * done + '/' * (bar_length - done)
     sys.stdout.write('[{}] {:.2f}% {}'.format(show, percent*100, status))
     sys.stdout.flush()
-
+    
 def feature_rough_sel(data):
     bio_info = ("ASM", "Contrast", "Correlation", "Homogeneity", "Entropy", "Variance", "Skewness", "Kurtosis")
     selected_feature = list(filter_df(data, bio_info))
@@ -80,14 +81,15 @@ def clean_df(data, selected_feature=None, key='original_shape_VoxelVolume'):
         selected_feature = feature_rough_sel(data)
     sel_data = data.loc[:, selected_feature]
     sel_data['id'], _ = zip(*[v.split('Date') for v in sel_data.index.tolist()])
+
     before_data = sel_data.iloc[::2, :]
     after_data = sel_data.iloc[1::2, :]
-    
+
     v_before = data.loc[before_data.index, key]
     v_after = data.loc[after_data.index, key]
     y = y_creator(v_before, v_after, before_data['id'])
     x = before_data.set_index('id')
-    print(x.shape)
+    print(f'{x.shape[0]} samples, {x.shape[1]} features')
     return x, y
 
 def y_creator(v_before, v_after, idxs):
@@ -103,5 +105,7 @@ def filter_df(data, sel_info):
     columns = filter(func_filter, data.columns.tolist())
     return columns  
 
-        
-
+def markdown_tabel(content, dst):
+    with open(os.path.join(dst, 'mark_down.txt'),'a') as md:
+        md.write(tabulate(content, tablefmt="pipe", headers="keys"))
+        md.write('\n')
