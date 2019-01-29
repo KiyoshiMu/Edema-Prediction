@@ -87,9 +87,25 @@ Supplement Figure 2.
 
 First, we computed the distance in one patient (the distance between one patient's two parts) and the distance in different patients (the distance between one patient and the other patient) of each feature. Distances are judged by absolute difference. Figure 4 shows the result.
 
-To compare the distance in one patient and that in different patients, we done the following analysis. 'wavelet-LHL_firstorder_Variance', 'wavelet-LHL_firstorder_Entropy', 'wavelet-LHL_glcm_Contrast', 'wavelet-LHL_firstorder_Skewness', 'wavelet-LHH_glcm_Correlation', 'original_firstorder_Kurtosis', which are selected previously, are utilised to represent the image features of sliced unilateral cerebral edema radiomics images. The values are standardised by Formula 1 first. Then the weights of features are adjusted by the absolute value ratio of t-statistic, i.e. multiplying 1.2298782178898857, 1.0662763400478648, 0.9940534971423753, 0.9739126591525356, 0.8938536400797659, 0.8420256456875721, respectively.
+To compare the distance in one patient and that in different patients, we done the following analysis. 'wavelet-LHL_firstorder_Variance', 'wavelet-LHL_firstorder_Entropy', 'wavelet-LHL_glcm_Contrast', 'wavelet-LHL_firstorder_Skewness', 'wavelet-LHH_glcm_Correlation', 'original_firstorder_Kurtosis', which are selected previously, are utilised to represent the image features of sliced unilateral cerebral edema radiomics images. The values are standardised by standardization
+$$
+z = \frac{x - \mu}{\sigma}
+$$
+with mean:
+$$
+\mu = \frac{1}{N} \sum_{i=1}^N x_i
+$$
+and standard deviation:
+$$
+\sigma = \sqrt{\frac{1}{N} \sum_{i=1}^N (x_i - \mu)^2}
+$$
+ first. Then the weights of features are adjusted by the absolute value ratio of t-statistic, i.e. multiplying 1.2298782178898857, 1.0662763400478648, 0.9940534971423753, 0.9739126591525356, 0.8938536400797659, 0.8420256456875721, respectively.
 
-Many studies use Euclidean distance to analyse the similarity of two staff, especially images (Eamoraphan, 2003; Li and Lu, 2009; Shabrina, 2011). Therefore, the distance of images is calculated by Minkowski Distance ($\left(\sum_{i=1}^n |x_i-y_i|^p\right)^{1/p}$) on norm (p) = 2, i.e. Euclidean distance. The distance between one patient’s sliced cerebral edema and these from other patients are represented by the mean of all distances between it and each of other patients'. As Figure 5 demonstrates, the distance of two unilateral cerebral edema images from one patient are significantly smaller than the mean of distances between one and unilateral cerebral edema images from different patients. Two-tailed T-test outputs P-value= 0.0002.
+Many studies use Euclidean distance to analyse the similarity of two staff, especially images (Eamoraphan, 2003; Li and Lu, 2009; Shabrina, 2011). Therefore, the distance of images is calculated by Minkowski Distance
+$$
+\left(\sum_{i=1}^n |x_i-y_i|^p\right)^{1/p}
+$$
+ on norm (p) = 2, i.e. Euclidean distance. The distance between one patient’s sliced cerebral edema and these from other patients are represented by the mean of all distances between it and each of other patients'. As Figure 5 demonstrates, the distance of two unilateral cerebral edema images from one patient are significantly smaller than the mean of distances between one and unilateral cerebral edema images from different patients. Two-tailed T-test outputs P-value= 0.0002.
 
 Figure 4
 ![Figure 4](pics/figure4.png)
@@ -97,13 +113,21 @@ Figure 4
 Figure 5 The distance of two unilateral cerebral edema images from one patient is significantly smaller than the distance of unilateral cerebral edema images in different patients.
 ![Figure 5](pics/figure5.png)
 
-3. Original_firstorder_Kurtosis is worth studying
+1. Wavelet-LHL_firstorder_Variance is worth studying
 
-Finally, we compared the correlation between left features and right features in same outcome group and different outcome group. If the correlation of one feature is high in the former group, while it's low in the latter group, this feature may indicate some peculiarities of the difference, which is worth studying.
+Finally, we compared the correlation between left features and right features in same outcome group and different outcome group by Pearson correlation.
+$$
+\rho = \frac{\text{cov}(X,Y)}{\sigma_x \sigma_y}
+$$
+$$
+r = \frac{{}\sum_{i=1}^{n} (x_i - \overline{x})(y_i - \overline{y})}
+{\sqrt{\sum_{i=1}^{n} (x_i - \overline{x})^2(y_i - \overline{y})^2}}
+$$
+For example, if the correlation of one feature is high in the former group, while it's low in the latter group, this feature may indicate some peculiarities of the difference, which is worth studying.
 
-As Figure 6 and Table 3 show, the coefficient of original_firstorder_[Kurtosis](https://en.wikipedia.org/wiki/Kurtosis) in Same Outcome Group is 0.06, while it in in Different Outcome Group is 0.85, which may imply this feature (the measurement of the unorderness of texture) is related to whether both parts of the bilateral have the same outcome.
+As Figure 6 and Table 3 show, the coefficient wavelet-LHL_firstorder_Variance in Same Outcome Group is 0.898986, while the one in in Different Outcome Group is 0.363959, which may imply this feature is related to whether both parts of the bilateral have the same outcome. The lower its Pearson correlation coefficient between two sides, the more likely the two sides have different outcomes.
 
-Besides, 12 bilateral samples whose outcomes are different are selected. The outcomes match our previous outcome that the effective group’s original_firstorder_Kurtosis is larger than the ineffective group’s
+However, as Figure 7 shows, this feature cannot provide sufficient information about whether the therapy is effective for one part. The value of this feature in effective and ineffective group gathered by side is not significantly different.
 
 Figure 6
 ![Figure 6](pics/figure6.png)
@@ -117,6 +141,7 @@ Table 3
 | wavelet-LHL_firstorder_Skewness |                         0.0700653 | 0.820076    |
 | wavelet-LHH_glcm_Correlation    |                        -0.0343937 | 0.911185    |
 | original_firstorder_Kurtosis    |                         0.0686227 | 0.823728    |
+
 |Features in Different Outcome Group|   Pearson correlation coefficient |   p-value |
 |:--------------------------------|----------------------------------:|----------:|
 | wavelet-LHL_firstorder_Variance |                          0.363959 | 0.375447  |
@@ -126,8 +151,21 @@ Table 3
 | wavelet-LHH_glcm_Correlation    |                         -0.251074 | 0.548646  |
 | original_firstorder_Kurtosis    |                          0.851649 | 0.0072811 |
 
+Figure 7
+![Figure 7](pics/figure7.png)
+
 ### Reference
 
+Aggarwal, N. and Agrawal, R.K. (2012) First and Second Order Statistics Features for Classification of Magnetic Resonance Brain Images, Journal of Signal & Information Processing, 3, 146-153.
+
+Bi, W., et al. (2017) Radiographic Prediction of Meningioma Grade and Genomic Profile, Journal of Neurological Surgery Part B Skull Base, 78, S1-S156.
+
+Coroller, T.P., et al. (2017) Radiomic-Based Pathological Response Prediction from Primary Tumors and Lymph Nodes in NSCLC, Journal of Thoracic Oncology Official Publication of the International Association for the Study of Lung Cancer, 12, 467.
+
 Eamoraphan, C. (2003) Content-based image retrieval by spatial similarity using euclidean distance from centroid of common objects.
+
 Li, J. and Lu, B.L. (2009) An adaptive image Euclidean distance. Elsevier Science Inc.
+
 Shabrina, K. (2011) ANALYSIS USING DISTANCE MEASURING EUCLIDEAN DISTANCE SIMILARITY IMAGE AS THE BASIS OF IRIS EYE.
+
+TODO
