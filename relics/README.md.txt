@@ -10,7 +10,7 @@ Predict the outcome of celebral edema patients from MRI
 
 __**The codes and correspond explanations are in "[whole_img.ipynb](whole_img.ipynb)"**__
 
-We used coronal T2-flair Digital Imaging and Communications in Medicine (DICOM) images, which are from 66 patients before and after their first therapy. All images are resized to 320 pixels in the row and 320 pixels in the column. The Spacings are adjusted by individual specific resizing ratio. For example, after resizing, a ![formula](http://latex.codecogs.com/svg.latex?640pixel*640pixel) image with ![formula](http://latex.codecogs.com/svg.latex?0.359*0.359) in Spacing will become a ![formula](http://latex.codecogs.com/svg.latex?640pixel*640pixel) image with ![formula](http://latex.codecogs.com/svg.latex?0.718*0.718) in Spacing.
+We used coronal T2-flair Digital Imaging and Communications in Medicine (DICOM) images, which are from 66 patients before and after their first therapy. All images are resized to 320 pixels in the row and 320 pixels in the column. The Spacings are adjusted by individual specific resizing ratio. For example, after resizing, a $640pixel*640pixel$ image with $0.359*0.359$ in Spacing will become a $640pixel*640pixel$ image with $0.718*0.718$ in Spacing.
 
 The segmentation for all series of MRI images is completed by OpenCV via the combination of its bilateralFilter, threshold, getStructuringElement, morphologyEx and findContours algorithms. (The codes can be checked in Supplement Material. They're in relics folder now.)
 
@@ -18,7 +18,7 @@ After automatic segmentation, manual proofreading in every image is done to corr
 
 ![The result of segmentation](pics/figure1.png)
 
-After segmentation, the images and their correspondent masks are plugged into *PyRadiomics (version 1.3.0.post92+g974a734)*, a flexible open-source platform capable of extracting a large panel of engineered features from medical images, under its MR_5mm setting. 961 features are created, including features for Statistics, Shape, GLCM, GLRLM and GLSZM. The detail setting is *MR_5mm.yaml*.
+After segmentation, the images and their correspondent masks are plugged into PyRadiomics (version 1.3.0.post92+g974a734), a flexible open-source platform capable of extracting a large panel of engineered features from medical images, under its MR_5mm setting. 961 features are created, including features for Statistics, Shape, GLCM, GLRLM and GLSZM. The detail setting is *MR_5mm.yaml*.
 
 The effect of the therapy is defined by whether the volume of cerebral edema reduce to less than 75% of its previous volume that is before one course of treatment. If cerebral edema’s volume declines to such extent, the therapy is effective; otherwise, the therapy doesn’t work well.
 
@@ -67,13 +67,13 @@ Finally, the area under the receiver operating characteristics curves (AUCs) for
 
 __**The codes and correspond explanations are in "[bilateral_img.ipynb](bilateral_img.ipynb)"**__
 
-Among our 66 patient samples, 38 patients’cerebral edemas are bilateral. We selected 21 samples whose both unilateral cerebral edema volumes before therapy are larger than 2000![formula](http://latex.codecogs.com/svg.latex?mm^3) from them, since our method cannot handle the cerebral edema which is smaller than 2000![formula](http://latex.codecogs.com/svg.latex?mm^3) well. The unilateral radiomics images were created by slicing the primary images from the x-axis middle. The correspondent mask files were processed in the same way. Finally, 84 unilateral radiomics images and 84 mask files were created from before therapy and after therapy (![formula](http://latex.codecogs.com/svg.latex?21*2*2=84)).
+Among our 66 patient samples, 38 patients’cerebral edemas are bilateral. We selected 21 samples whose both unilateral cerebral edema volumes before therapy are larger than 2000$mm^3$ from them, since our method cannot handle the cerebral edema which is smaller than 2000$mm^3$ well. The unilateral radiomics images were created by slicing the primary images from the x-axis middle. The correspondent mask files were processed in the same way. Finally, 84 unilateral radiomics images and 84 mask files were created from before therapy and after therapy ($21*2*2=84$).
 
 We used PyRadiomics with its exampleMR_5mm setting to analysis these “created” unilateral cerebral edema. The volume change that means effectiveness of therapy is set by the same condition, more than 25% of before therapy volume reduce. The outcomes of two unilateral cerebral edema images sliced from one bilateral cerebral edema image have three different relationships with that from their parental primary image: the outcomes are the same; the outcomes are different but the larger volume one has the same outcome as the whole’s and the outcomes are different but the smaller volume one has the same outcome as the whole’s.
 
 1. The effectiveness based on the whole volume change is representative
 
-Only 4.8% of 21 patients or say, one patient’s the smaller side rein the whole trend (Supplement Figure 1). This one with 50517.0 ![formula](http://latex.codecogs.com/svg.latex?mm^3) cerebral edema in the right and 27729.0 ![formula](http://latex.codecogs.com/svg.latex?mm^3) cerebral edema in the left became the one with 37125.0 ![formula](http://latex.codecogs.com/svg.latex?mm^3) and 22221.0 ![formula](http://latex.codecogs.com/svg.latex?mm^3) cerebral edema in right brain and left brain, respectively. As a result, the outcome of the right side that's larger volume, is effective (26.5%) and the outcome of the left side, the one with smaller volume, is not effective (19.8%), while the whole outcome is not effective (24.1%). Supplement Figure 2 shows this case.
+Only 4.8% of 21 patients or say, one patient’s the smaller side rein the whole trend (Supplement Figure 1). This one with 50517.0 $mm^3$ cerebral edema in the right and 27729.0 $mm^3$ cerebral edema in the left became the one with 37125.0 $mm^3$ and 22221.0 $mm^3$ cerebral edema in right brain and left brain, respectively. As a result, the outcome of the right side that's larger volume, is effective (26.5%) and the outcome of the left side, the one with smaller volume, is not effective (19.8%), while the whole outcome is not effective (24.1%). Supplement Figure 2 shows this case.
 
 Assuming the larger the unilateral cerebral edema is, the more important role it plays in symptom, because the whole outcome are almost all the same as the outcome of the larger one, whole outcome of the bilateral cerebral edema will be a good harbinger for the consequence of the therapy. Besides, 24.1% is quietly near to 25%. This outcome of whole would be defined as effective under a laxer condition and would be the same as its larger volume part’s, which means the outliner is not a categorical outliner at all. In conclusion, for bilateral cerebral edema, the effectiveness based on the whole volume change is representative.
 
@@ -88,23 +88,23 @@ Supplement Figure 2.
 First, we computed the distance in one patient (the distance between one patient's two parts) and the distance in different patients (the distance between one patient and the other patient) of each feature. Distances are judged by absolute difference. Figure 4 shows the result.
 
 To compare the distance in one patient and that in different patients, we done the following analysis. 'wavelet-LHL_firstorder_Variance', 'wavelet-LHL_firstorder_Entropy', 'wavelet-LHL_glcm_Contrast', 'wavelet-LHL_firstorder_Skewness', 'wavelet-LHH_glcm_Correlation', 'original_firstorder_Kurtosis', which are selected previously, are utilised to represent the image features of sliced unilateral cerebral edema radiomics images. The values are standardised by standardization
-
-![formula](http://latex.codecogs.com/svg.latex?z=\frac{x-\mu}{\sigma})
-
+$$
+z = \frac{x - \mu}{\sigma}
+$$
 with mean:
-
-![formula](http://latex.codecogs.com/svg.latex?\mu=\frac{1}{N}\sum_{i=1}^Nx_i)
-
+$$
+\mu = \frac{1}{N} \sum_{i=1}^N x_i
+$$
 and standard deviation:
-
-![formula](http://latex.codecogs.com/svg.latex?\sigma=\sqrt{\frac{1}{N}\sum_{i=1}^N(x_i-\mu)^2})
-
+$$
+\sigma = \sqrt{\frac{1}{N} \sum_{i=1}^N (x_i - \mu)^2}
+$$
  first. Then the weights of features are adjusted by the absolute value ratio of t-statistic, i.e. multiplying 1.2298782178898857, 1.0662763400478648, 0.9940534971423753, 0.9739126591525356, 0.8938536400797659, 0.8420256456875721, respectively.
 
 Many studies use Euclidean distance to analyse the similarity of two staff, especially images (Eamoraphan, 2003; Li and Lu, 2009; Shabrina, 2011). Therefore, the distance of images is calculated by Minkowski Distance
-
-![formula](http://latex.codecogs.com/svg.latex?\left(\sum_{i=1}^n|x_i-y_i|^p\right)^{1/p})
-
+$$
+\left(\sum_{i=1}^n |x_i-y_i|^p\right)^{1/p}
+$$
  on norm (p) = 2, i.e. Euclidean distance. The distance between one patient’s sliced cerebral edema and these from other patients are represented by the mean of all distances between it and each of other patients'. As Figure 5 demonstrates, the distance of two unilateral cerebral edema images from one patient are significantly smaller than the mean of distances between one and unilateral cerebral edema images from different patients. Two-tailed T-test outputs P-value= 0.0002.
 
 Figure 4
@@ -116,11 +116,13 @@ Figure 5 The distance of two unilateral cerebral edema images from one patient i
 1. Wavelet-LHL_firstorder_Variance is worth studying
 
 Finally, we compared the correlation between left features and right features in same outcome group and different outcome group by Pearson correlation.
-
-![formula](http://latex.codecogs.com/svg.latex?\rho=\frac{\text{cov}(X,Y)}{\sigma_x\sigma_y})
-
-![formula](http://latex.codecogs.com/svg.latex?r=\frac{{}\sum_{i=1}^{n}(x_i-\overline{x})(y_i-\overline{y})}{\sqrt{\sum_{i=1}^{n}(x_i-\overline{x})^2(y_i-\overline{y})^2}})
-
+$$
+\rho = \frac{\text{cov}(X,Y)}{\sigma_x \sigma_y}
+$$
+$$
+r = \frac{{}\sum_{i=1}^{n} (x_i - \overline{x})(y_i - \overline{y})}
+{\sqrt{\sum_{i=1}^{n} (x_i - \overline{x})^2(y_i - \overline{y})^2}}
+$$
 For example, if the correlation of one feature is high in the former group, while it's low in the latter group, this feature may indicate some peculiarities of the difference, which is worth studying.
 
 As Figure 6 and Table 3 show, the coefficient wavelet-LHL_firstorder_Variance in Same Outcome Group is 0.898986, while the one in in Different Outcome Group is 0.363959, which may imply this feature is related to whether both parts of the bilateral have the same outcome. The lower its Pearson correlation coefficient between two sides, the more likely the two sides have different outcomes.
