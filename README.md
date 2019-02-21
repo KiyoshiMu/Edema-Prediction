@@ -166,5 +166,3 @@ Eamoraphan, C. (2003) Content-based image retrieval by spatial similarity using 
 Li, J. and Lu, B.L. (2009) An adaptive image Euclidean distance. Elsevier Science Inc.
 
 Shabrina, K. (2011) ANALYSIS USING DISTANCE MEASURING EUCLIDEAN DISTANCE SIMILARITY IMAGE AS THE BASIS OF IRIS EYE.
-
-TODO
